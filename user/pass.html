@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>更改密码</title>
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <link rel="stylesheet" href="#(root)css/common-head.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+    <style>
+        .weui-cell__bd {
+            margin-left: .8rem;
+        }
+
+        .lose {
+            text-align: right;
+            color: #999;
+        }
+        .lose a{
+            display:inline-block;
+            width: 100%;
+            height: 100%;
+        }
+        .login,
+        .goreg {
+            margin-top: 2rem;
+        }
+
+        .weui-loadmore_line {
+            margin-top: 4rem;
+        }
+
+        .wx span {
+            font-size: 25px;
+            color: #12af12;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container page-bg page-bd-15" id="app">
+        <!-- #if(!iswx) -->
+        <header class="weui-cell weui-cell_access">
+            <a href="javascript:history.back(-1)">
+                <i class="weui-icon-cancel"></i>
+            </a>
+            <div>更改密码</div>
+        </header>
+        <!-- #end -->
+        <form class="content" action="/user/login">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">旧密码</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input oldpass" placeholder="请输入旧密码" type="password" name="oldpass">
+                </div>
+               
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">新密码</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input psd" pattern="[0-9]*" placeholder="请输入新密码" type="password" name="password">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <p style="font-size:12px;color:#ccc;">密码可以由数字、字母以及下划线组成，最少六位</p>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">确认新密码</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input copypsd" pattern="[0-9]*" placeholder="请再次输入新密码" type="password" name="password">
+                </div>
+            </div>
+            <div class="lose"><a href="#(root)find">忘记密码?</a> </div>
+            <input type="button" class="weui-btn weui-btn_primary login" value="确认更改" />
+        </form>
+        <!-- <div class="third tcenter">
+            <a href="#(root)login/wx" class="wx">
+                <input type="button" class="weui-btn weui-btn_primary" value="微信一键登录">
+                <span class="icon icon-14"></span>
+            </a>
+        </div> -->
+    </div>
+    <script>
+        $(function () {
+            $(".login").click(function () {
+                var oldpass = $(".oldpass").val();//获取用户旧密码
+                var psd = $(".psd").val();//获取用户新密码
+                var copypsd = $(".copypsd").val();//获取用户确认新密码
+                var patt1 =  /^[\w_]{6,12}$/;
+                if (!oldpass) {
+                    $.toptip('请输入旧密码')
+                } else if(oldpass==psd){
+                    $.toptip('新密码不能与旧密码相同');
+                    $(".psd").val("")
+                    $(".copypsd").val("")
+                }else if (!psd) {
+                    $.toptip('请输入新密码')
+                }else if(!patt1.test(psd)){
+                    $.toptip('密码格式不正确')
+                }else if(!copypsd){
+                    $.toptip('请确认您的新密码')
+                }else if(psd!=copypsd){
+                    $.toptip('两次密码输入不一致，请重新确认！');
+                    $(".copypsd").val("")
+                }
+                else {
+                    console.log($("form").serializeArray())
+                    $.ajax({
+                        url: "#(root)user/login.json",
+                        type: "post",
+                        data: $("form").serializeArray(),
+                        success: function (res) {
+                            console.log(res);
+                            if (res.code == 200) {
+                                $.toptip('修改成功，请重新登录', "success");
+                                location.href = "#(root)" + res.url;
+                                //location.href="user/modify";
+                            } else {
+                                $.toptip('修改失败，请稍后再试！');
+                            }
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

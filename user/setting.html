@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>账号设置</title>
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <link rel="stylesheet" href="#(root)css/common-head.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+    <style>
+        .weui-cell__bd {
+            margin-left: .8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container page-bg" id="app">
+        <header class="weui-cell weui-cell_access">
+            <a href="javascript:history.back(-1)">
+                <i class="icon icon-109"></i>
+            </a>
+            <div>账号设置</div>
+        </header>
+        <div class="weui-cells">
+
+            <a class="weui-cell weui-cell_access" href="#(root)user/modify">
+                <div class="weui-cell__hd">
+                    <i class="icon icon-67"></i>
+                </div>
+                <div class="weui-cell__bd">
+                    <p>修改信息</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="#(root)user/pass">
+                <div class="weui-cell__hd">
+                    <i class="icon icon-67"></i>
+                </div>
+                <div class="weui-cell__bd">
+                    <p>更改密码</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="#(root)user/aboutus">
+                <div class="weui-cell__hd">
+                    <i class="icon icon-39"></i>
+                </div>
+                <div class="weui-cell__bd">
+                    <p>关于我们</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </a>
+        </div>
+        <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="islogin">退出登录</a>
+        <a href="#(root)login" class="weui-btn weui-btn_primary" v-else>登录</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>    
+        $(function(){
+            // 用户是否登录
+            var islogin = false;
+            new Vue({
+                el:"#app",
+                data:{
+                    islogin:islogin
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

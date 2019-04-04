@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>忘记密码</title>
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <link rel="stylesheet" href="#(root)css/common-head.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+    <style>
+        .weui-cell__bd {
+            margin-left: .8rem;
+        }
+
+        .reg,
+        .gologin {
+            margin-top: 2rem;
+        }
+
+        .weui-loadmore_line {
+            margin-top: 4rem;
+        }
+
+        .third a {
+            display: inline-block;
+            padding: 1rem;
+        }
+
+        .third .qq {
+            color: rgb(48, 174, 247);
+        }
+
+        .third .wx {
+            color: rgb(57, 168, 29);
+        }
+
+        .third .wb {
+            color: rgb(238, 104, 15);
+        }
+
+        .third i {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container page-bg page-bd-15" id="app">
+        <header class="weui-cell weui-cell_access">
+            <a href="javascript:history.back(-1)">
+                <i class="weui-icon-cancel"></i>
+            </a>
+            <div>忘记密码</div>
+        </header>
+        <form action="">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">手机号</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input phone" pattern="[0-9]*" placeholder="请输入手机号" type="text" name="phone">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">密码</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input psd" pattern="[0-9]*" placeholder="请输入密码" type="password" name="password">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_vcode">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">验证码</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input code" placeholder="验证码" type="number" name="code">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn js-getcode" onclick="settime(this)">获取验证码</button>
+                </div>
+            </div>
+            <a href="#" class="weui-btn weui-btn_primary reg">设置密码</a>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>  
+        var countdown = 10;
+        function settime(obj) {
+            var code = $(obj);
+            if (countdown == 0) {
+                code.removeAttr('disabled');
+                code.text("获取验证码");
+                countdown = 10;
+                return;
+            } else {
+                code.text("重新发送(" + countdown + ")");
+                code.attr('disabled', true);
+                countdown--;
+            }
+            setTimeout(function () {
+                settime(obj)
+            }, 1000);
+
+        }
+        $(".reg").click(function () {
+            var phone = $(".phone").val();//获取用户手机号
+            var psd = $(".psd").val();//获取用户密码
+            var code = $(".code").val();//获取用户输入的验证码
+            var patt1 = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;   //手机正则
+            var patt2 =  /^[\w_]{6,12}$/;    //允许包含数字、字母、和下划线
+            if (!phone) {
+                $.toptip('手机号不能为空')
+            } else if (!psd) {
+                $.toptip('密码不能为空')
+            } else if (!patt1.test(phone)) {
+                $.toptip("手机格式不正确")
+            }else if (!patt2.test(psd)) {
+                $.toptip("密码格式不正确")
+            } else if(!code){
+                $.toptip("验证码不正确")
+            }else {
+                alert("设置成功")
+            }
+        })
+    </script>
+
+</body>
+
+</html>

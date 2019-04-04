@@ -1,0 +1,181 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css"/>
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css"/>
+
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+
+    <script src="#(root)assets/weui5/js/iscroll-lite.js"></script>
+
+    <script>
+        $(function(){
+            TagNav('#tagnav',{
+                type: 'scrollToNext',
+                curClassName: 'weui-state-active',
+                index:0
+            });
+            TagNav('#tagnav1',{
+                type: 'scrollToNext',
+                curClassName: 'weui-state-active',
+                index:0
+            });
+            TagNav('#tagnav2',{
+                type: 'scrollToNext',
+                curClassName: 'weui-state-active',
+                index:0
+            });
+        })
+
+    </script>
+
+</head>
+
+<body ontouchstart>
+<div class="container">
+    
+    <div id="tagnav" class="weui-navigator weui-navigator-wrapper">
+        <ul class="weui-navigator-list">
+            <li><a href="javascript:;">首页</a></li>
+            <li><a href="javascript:;">王者荣耀</a></li>
+            <li><a href="javascript:;">国内</a></li>
+            <li><a href="javascript:;">国际</a></li>
+            <li><a href="javascript:;">军事</a></li>
+            <li><a href="javascript:;">社会</a></li>
+            <li><a href="javascript:;">娱乐</a></li>
+            <li><a href="javascript:;">女人</a></li>
+            <li><a href="javascript:;">体育</a></li>
+            <li><a href="javascript:;">科技</a></li>
+            <li><a href="javascript:;">互联网</a></li>
+            <li><a href="javascript:;">教育</a></li>
+            <li><a href="javascript:;">财经</a></li>
+            <li><a href="javascript:;">房产</a></li>
+            <li><a href="javascript:;">汽车</a></li>
+        </ul>
+    </div>
+    <div id="tagnav1" class="weui-navigator weui-navigator-wrapper">
+        <ul class="weui-navigator-list">
+            <li><a href="javascript:;">首页</a></li>
+            <li><a href="javascript:;">王者荣耀</a></li>
+            <li><a href="javascript:;">国内</a></li>
+            <li><a href="javascript:;">国际</a></li>
+            <li><a href="javascript:;">军事</a></li>
+            <li><a href="javascript:;">社会</a></li>
+            <li><a href="javascript:;">娱乐</a></li>
+            <li><a href="javascript:;">女人</a></li>
+            <li><a href="javascript:;">体育</a></li>
+            <li><a href="javascript:;">科技</a></li>
+            <li><a href="javascript:;">互联网</a></li>
+            <li><a href="javascript:;">教育</a></li>
+            <li><a href="javascript:;">财经</a></li>
+            <li><a href="javascript:;">房产</a></li>
+            <li><a href="javascript:;">汽车</a></li>
+        </ul>
+    </div>
+    
+    <div id="tagnav2" class="weui-navigator weui-navigator-wrapper">
+        <ul class="weui-navigator-list">
+            <li><a href="javascript:;">首页</a></li>
+            <li><a href="javascript:;">王者荣耀</a></li>
+            <li><a href="javascript:;">国内</a></li>
+            <li><a href="javascript:;">国际</a></li>
+            <li><a href="javascript:;">军事</a></li>
+            <li><a href="javascript:;">社会</a></li>
+            <li><a href="javascript:;">娱乐</a></li>
+            <li><a href="javascript:;">女人</a></li>
+            <li><a href="javascript:;">体育</a></li>
+            <li><a href="javascript:;">科技</a></li>
+            <li><a href="javascript:;">互联网</a></li>
+            <li><a href="javascript:;">教育</a></li>
+            <li><a href="javascript:;">财经</a></li>
+            <li><a href="javascript:;">房产</a></li>
+            <li><a href="javascript:;">汽车</a></li>
+        </ul>
+    </div>
+    
+    <div class="weui-panel__hd" >最新视频</div>
+	<ul class="weui-mark" >
+		<!-- #for(c:courses) -->
+        <li>
+            <div class="weui-mark-img" style="height: 100px;padding-top: 2px;">
+                <img src="#(www)#(c.img)" onerror="this.src='#(www)img/wutu.png'" >
+            </div>
+            <span class="weui-mark-lb" style="bottom:5em;">#(c.section)集全</span>
+            <span class="weui-mark-rt #(c.price>0?'bg-blue':'bg-green')">#(c.price>0?'独播':'免费')</span>
+            <!-- #if(c.vip==1) -->
+            <div class="weui-mark-vip"><span class="weui-mark-lt bg-orange">自制</span></div>
+            <!-- #end -->
+            <div class="weui-mark-meta">
+                <div class="weui-mark-title"><a href="javascript:;" style="font-weight: 500;font-size: 1em;">#(c.title)</a></div>
+                <div class="weui-mark-desc" style="font-size: 0.7em;height: 20px;">
+                <font style="color: red;">#(c.price>0?c.price:'免费')</font>
+                <font style="float: right;">#(c.tname)</font></div>
+            </div>
+        </li>
+        <!-- #end -->
+    </ul>
+</div>
+
+<script>
+    //有4个颜色配置
+    $(document).on("click", "#show-actions", function() {
+        $.actions({
+            title: "选择操作",
+            onClose: function() {
+                console.log("close");
+            },
+            actions: [
+                {
+                    text: "发布",
+                    className: "color-primary",
+                    onClick: function() {
+                        $.alert("发布成功");
+                    }
+                },
+                {
+                    text: "编辑",
+                    className: "color-warning",
+                    onClick: function() {
+                        $.alert("你选择了“编辑”");
+                    }
+                },
+                {
+                    text: "删除",
+                    className: 'color-danger',
+                    onClick: function() {
+                        $.alert("你选择了“删除”");
+                    }
+                }
+            ]
+        });
+    });
+
+    $(document).on("click", "#show-actions-bg", function() {
+        $.actions({
+            actions: [
+                {
+                    text: "发布",
+                    className: "bg-primary",
+                },
+                {
+                    text: "编辑",
+                    className: "bg-warning",
+                },
+                {
+                    text: "删除",
+                    className: 'bg-danger',
+                } ,{
+                    text: "删除",
+                    className: 'bg-success',
+                }
+            ]
+        });
+    });
+</script>
+</body>
+</html>

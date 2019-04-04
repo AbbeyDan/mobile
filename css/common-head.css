@@ -1,0 +1,8 @@
+header {
+    border-bottom: 1px solid #eee;
+}
+
+header div {
+    flex: 1;
+    text-align: center;
+}

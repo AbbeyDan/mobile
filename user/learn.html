@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>学习中心</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <link rel="stylesheet" href="#(root)css/common-head.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+    <style>
+        .no {
+            height: 100%;
+            background: url(../img/no.png);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container page-bg" id="app">
+        <!-- 头部 -->
+        <!-- 顶部 -->
+        <header class="weui-cell weui-cell_access">
+            <a href="javascript:history.back(-1)">
+                <i class="icon icon-109"></i>
+            </a>
+            <div>学习中心</div>
+        </header>
+        <!-- 播放记录列表 -->
+        <div class="weui-news">
+            <ul class="weui-news-list">
+                <!--  -->
+                <li class="weui-news-item" v-for="item in list">
+                    <div class="weui-news-inner">
+                        <div class="weui-news-media">
+                            <img src="../images/1.jpg">
+                            <span class="weui-mark-lb">共{{item.section}}节</span>
+                            <span class="weui-mark-rt bg-orange" v-if="item.price>0">精品</span>
+                            <span class="weui-mark-rt bg-blue" v-else>免费</span>
+                        </div>
+                        <div class="weui-news-inners">
+                            <div class="weui-news-text">
+                                <div class="weui-news-title">{{item.title.length>12?item.title.slice(0,10)+"...":item.title}}</div>
+                            </div>
+                            <div class="weui-news-info">
+                                <div class="weui-news-infoitem">
+                                    <img src="../images/user.png" class="weui-news-round">
+                                    <span class="weui-news-left">{{item.tname}} {{1/3 | ceil}}</span>
+                                </div>
+                                <div class="weui-news-infoitem">
+                                    <a :href="'/m/course/'+item.id" class="weui-btn weui-btn_mini weui-btn_primary bg-blue">继续学习</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div v-if="list.length==0" class="no">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        //用户的课程数据
+        // var courses = [{"title":"心理学基础课程","name":"心理健康社会工作职业技能培训","img":"upload/course/img/6.jpg","price":200,"ttype":"国内","tid":"294","tname":"吴宝沛","type":"[\"心理工作者\"]","field":"心理健康","crowd":"","sect":"","tag":"认证课程,心理社工,培训录像,入门必修","meet":"","cases":"","auth":"心理社工","train":"","other":"入门必修","section":9,"duration":11265,"bnum":0,"num":1,"fnum":0,"text":"本课程属于《（中级）心理健康社会工作职业技能培训项目》中的基础理论部分。基础理论部分在初、中、高级培训中均为必修内容。\r\n本课程主要包括基础心理学、发展心理学、社会心理学。","html":"","agency_id":1,"agency_name":"心教育","qq":"615842666","phone":"01082865508","pct":5,"update_time":"2019-01-24 14:57:38","id":1},{"title":"北京大学心理嘉年华大礼包","name":"","img":"upload/course/img/267.jpg","price":365,"ttype":"","tid":"1","tname":"心教育","type":"[\"心理爱好者\",\"心理工作者\"]","field":"情绪压力,心理健康","crowd":"","sect":"","tag":"北大,压力,静观","meet":"","cases":"","auth":"","train":"","other":"","section":98,"duration":120782,"bnum":0,"num":0,"fnum":0,"text":"作为北京大学心理嘉年华活动的福利，发放给参与活动的同学。选取了对于同学们有普遍意义的压力管理、正念、电影与心理学的相关内容，以期帮助同学们更好的学习与生活。","html":"","agency_id":1,"agency_name":"心教育","qq":"615842666","phone":"01082865508","pct":5,"update_time":"2019-02-25 17:15:20","id":267},{"title":"TA疗法","name":"心理健康社会工作职业技能培训","img":"upload/course/img/4.jpg","price":200,"ttype":"国内","tid":"292","tname":"高德明","type":"[\"心理工作者\"]","field":"心理健康","crowd":"","sect":"","tag":"认证课程,心理社工,社工师,入门必修,专业课程","meet":"","cases":"","auth":"心理社工","train":"","other":"入门必修","section":9,"duration":9437,"bnum":0,"num":1,"fnum":0,"text":"第二部分是心理社会工作的方法与技术。内容包含心理咨询基本技术、以人为中心疗法、静观（整合）干预方法、箱庭疗法、叙事疗法、TA疗法、人偶心游等常见方法与技术。其中心理咨询基本技术、以人为中心疗法、静观（整合）干预方法为初级内容，中级内容在初级的基础上增加了箱庭疗法、叙事疗法、TA疗法、人偶心游。","html":"","agency_id":1,"agency_name":"心教育","qq":"615842666","phone":"01082865508","pct":5,"update_time":"2019-01-24 15:20:56","id":4},{"title":"治疗关系、个体治疗以及成功心理治疗的关键因素","name":"The Therapeutic Relationship, Individualized Treatment and Other Keys to Successful Psychotherapy","img":"upload/course/img/42.jpg","price":200,"ttype":"国外","tid":"","tname":"","type":"[\"心理工作者\"]","field":"个人成长,心理健康","crowd":"","sect":"","tag":"访谈,咨询领域,心理咨询师,教师,心理社工","meet":"","cases":"包含案例","auth":"","train":"","other":"","section":5,"duration":5361,"bnum":0,"num":1,"fnum":0,"text":"约翰·洛克罗斯是我们时代最杰出的心理治疗师之一，在这部引人入胜的访谈中，他介绍了由14个研究结果抽取整合的元分析，以此揭示成功治疗方法的秘诀。","html":"","agency_id":1,"agency_name":"心教育","qq":"615842666","phone":"01082865508","pct":5,"update_time":"2019-01-14 11:42:27","id":42}];
+        var courses = [];
+        new Vue({
+            el: "#app",
+            data: {
+                list: courses
+            },
+            filters: {
+                ceil: function (value) {
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

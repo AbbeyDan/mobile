@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <link rel="stylesheet" href="#(root)css/common-head.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+    <style>
+        .weui-news-info {
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container page-bg" id="app">
+        <!-- 头部 -->
+        <!-- #if(!iswx) -->
+        <header class="weui-cell weui-cell_access">
+            <a href="javascript:history.back(-1)">
+                <i class="icon icon-109"></i>
+            </a>
+            <div>我的订单</div>
+        </header>
+        <!-- #end -->
+        <!-- 订单列表 -->
+        <div class="weui-news">
+            <ul class="weui-news-list">
+                <li class="weui-news-item" v-for="items in list">
+                    <a :href="'#(root)course/'+items.tbl_id" v-if="items.status==1">
+                    <div class="weui-news-inner">
+                        <div class="weui-news-media">
+                            <img :src="'#(www)'+items.img">
+                            <!-- <span class="weui-mark-lb">26集全</span> -->
+                            <span class="weui-mark-rt bg-orange">精品</span>
+                        </div>
+                        <div class="weui-news-inners">
+                            <div class="weui-news-text">
+                                <div class="orderno">{{items.orderno}}</div>
+                            </div>
+                            <div class="weui-news-text">
+                                <div class="weui-news-title">{{items.title.length>10?items.title.slice(0,10)+"...":items.title}}</div>
+                            </div>
+                            <div class="weui-news-info">
+                                <div class="weui-news-infoitem">
+                                    <span class="weui-news-left">￥{{items.price}}</span>
+                                </div>
+                                <div class="weui-news-infoitem" v-if="items.status==1" style="color:rgb(126, 192, 125);">已完成</div>
+                                <a class="weui-news-infoitem" v-else style="color:rgb(240, 93, 9);" :href="'#(root)pay/order/'+items.id">去付款</a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </li>
+            </ul>
+        </div>
+		<div class="no" v-if="list.length==0" style="height: 100%;background: url('#(root)img/norecord.png') no-repeat center;"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // data为用户订单数据
+        var data = #(json(obj))
+        new Vue({
+            el: "#app",
+            data: {
+                list: data
+            }
+        })
+
+    </script>
+</body>
+
+</html>

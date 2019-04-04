@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <link rel="stylesheet" href="#(root)css/common-head.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+    <script>
+        $(function () {
+
+            $('#slide2').swipeSlide({
+                autoSwipe: true,//自动切换默认是
+                speed: 3000,//速度默认4000
+                continuousScroll: true,//默认否
+                transitionType: 'cubic-bezier(0.22, 0.69, 0.72, 0.88)',//过渡动画linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier
+                lazyLoad: true,//懒加载默认否
+                firstCallback: function (i, sum, me) {
+                    me.find('.dot').children().first().addClass('cur');
+                },
+                callback: function (i, sum, me) {
+                    me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+                }
+            });
+        })
+
+    </script>
+</head>
+
+<body ontouchstart>
+    <!-- 顶部搜索 -->
+    <!-- 顶部 -->
+    <header class="weui-cell weui-cell_access">
+        <a href="#(root)search/">
+            <i class="weui-icon-search"></i>
+        </a>
+        <div>心教育学院</div>
+
+    </header>
+    <!-- 轮播 -->
+    <div class="slide" id="slide2">
+        <ul>
+            <li>
+                <a href="javascript:;">
+                    <img src='#(root)images/3.jpg' alt="">
+                </a>
+
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src='#(root)images/2.jpg' alt="">
+                </a>
+
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src='#(root)images/1.jpg' alt="">
+                </a>
+
+            </li>
+        </ul>
+        <div class="dot">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <!-- 轮播结束 -->
+    <div class="weui-grids grids-small">
+        <!-- #for(d:cache.get("dicts")) -->
+        <a href="#(root)course/" class="grid">
+            <div class="weui-grid__icon">
+                <img src="#(www)upload/dict/#(d.name).png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                #(d.name)
+            </p>
+        </a>
+        <!-- #end -->
+    </div>
+    <div class="weui-panel__hd">最新课程</div>
+    <ul class="weui-mark clearfix">
+        <!-- #for(c:courses) -->
+        <li onclick="location.href='#(root)course/#(c.id)'">
+                <div class="weui-mark-img" style="height: 100px;padding-top: 2px;">
+                    <img src="#(www)#(c.img)" onerror="this.src='#(www)img/wutu.png'">
+                </div>
+                <span class="weui-mark-lb" style="bottom:5em;">共#(c.section)节</span>
+                <span class="weui-mark-rt #(c.price>0?'bg-orange':'bg-blue')">#(c.price>0?'精品':'免费')</span>
+                <!-- #if(c.vip==1) -->
+                <div class="weui-mark-vip">
+                    <span class="weui-mark-lt bg-orange">自制</span>
+                </div>
+                <!-- #end -->
+                <div class="weui-mark-meta">
+                    <div class="weui-mark-title">
+                        <a href="javascript:;" style="font-weight: 500;font-size: 1em;">#(c.title)</a>
+                    </div>
+                    <div class="weui-mark-desc" style="font-size: 0.7em;height: 20px;">
+                        <font style="color:rgb(38, 125, 238);">#(c.price>0?'￥'+c.price:'免费')</font>
+                        <font style="float: right;">#(c.tname)</font>
+                    </div>
+                </div>
+        </li>
+        <!-- #end -->
+    </ul>
+    <div class="weui-panel__hd">精选套餐</div>
+    <ul class="weui-mark clearfix">
+        <!-- #for(c:combos) -->
+        <li onclick="location.href='#(root)course/#(c.id)'">
+            <div class="weui-mark-img" style="height: 100px;padding-top: 2px;">
+                <img src="#(www)#(c.img)" onerror="this.src='#(www)img/wutu.png'">
+            </div>
+            <!-- <span class="weui-mark-lb" style="bottom:5em;">共#(c.section)节</span> -->
+            <span class="weui-mark-rt #(c.price>0?'bg-orange':'bg-blue')">#(c.price>0?'精品':'免费')</span>
+            <div class="weui-mark-meta">
+                <div class="weui-mark-title">
+                    <a href="javascript:;" style="font-weight: 500;font-size: 1em;">#(c.title)</a>
+                </div>
+                <div class="weui-mark-desc" style="font-size: 0.7em;height: 20px;">
+                    <font style="color: rgb(38, 125, 238);">#(c.price)</font>
+                    <font style="float: right;">#(c.teacher)</font>
+                </div>
+            </div>
+        </li>
+        <!-- #end -->
+    </ul>
+    <div class="weui-panel__hd clearfix" style="border-top: 1px solid #E5E5E5;">最新资讯</div>
+    <ul class="weui-news-list">
+        <!-- #for(c:articles) -->
+        <li class="weui-news-item">
+            <div class="weui-news-inner">
+                <div class="weui-news-inners">
+                    <div class="weui-news-text">
+                        <div class="weui-news-title">#(c.title)</div>
+                    </div>
+                    <div class="weui-news-info">
+                        <div class="weui-news-infoitem">
+                            <img src="#(www)img/logo.png" class="weui-news-round">
+                            <span class="weui-news-left">#(c.author)</span>
+                        </div>
+                        <div class="weui-news-infoitem">#(c.add_time)</div>
+                    </div>
+                </div>
+                <div class="weui-news-media">
+                    <img src="#(www)#(c.img)" style="height: 80px;" onerror="this.src='#(www)img/wutu.png'">
+                </div>
+            </div>
+        </li>
+        <!-- #end -->
+    </ul>
+    <div style="margin-bottom: 25px;">&nbsp;</div>
+    <div class="weui-tab tab-bottom " style="height:55px;">
+
+        <div class="weui-tabbar">
+            <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+                <span style="display: inline-block;position: relative;">
+                    <i class="icon icon-27 f27 weui-tabbar__icon"></i>
+                    <!-- <span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span> -->
+                </span>
+                <p class="weui-tabbar__label">首页</p>
+            </a>
+            <a onclick="location.href='#(root)course/'" class="weui-tabbar__item">
+                <i class="icon icon-28 f27 weui-tabbar__icon"></i>
+                <p class="weui-tabbar__label">课程</p>
+            </a>
+            <a onclick="location.href='#(root)zb/'" class="weui-tabbar__item">
+                <span style="display: inline-block;position: relative;">
+                    <i class="icon icon-29 f27 weui-tabbar__icon"></i>
+                    <!-- <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span> -->
+                </span>
+                <p class="weui-tabbar__label">直播间</p>
+            </a>
+            <a onclick="location.href='#(root)user/'" class="weui-tabbar__item ">
+                <i class="icon icon-30 f27 weui-tabbar__icon"></i>
+                <p class="weui-tabbar__label">我</p>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

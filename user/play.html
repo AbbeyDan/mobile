@@ -1,0 +1,1524 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>观看记录</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <link rel="stylesheet" href="#(root)css/common-head.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+</head>
+
+<body>
+    <div class="container page-bg" id="app">
+        <!-- 顶部 -->
+        <header class="weui-cell weui-cell_access">
+            <a href="javascript:history.back(-1)">
+                <i class="icon icon-109"></i>
+            </a>
+            <div>观看记录</div>
+        </header>
+        <!-- 播放记录列表 -->
+        <div class="weui-news">
+            <ul class="weui-news-list">
+                <li class="weui-news-item" v-for="item in info">
+                    <a class="weui-news-inner" :href="'#(root)course/'+item.tbl_id">
+                        <div class="weui-news-media">
+                            <img :src="'#(www)'+item.img">
+                        </div>
+                        <div class="weui-news-inners">
+                            <div class="weui-news-text">
+                                <div class="weui-news-title">{{item.title.length>12?item.title.slice(0,10)+"...":item.title}}</div>
+                            </div>
+                            <!-- <p class="percent">已观看
+                                <span>30%</span>
+                            </p> -->
+                            <div class="weui-news-info">
+                                <div class="weui-news-infoitem">
+                                    <span class="weui-news-left">观看时间：{{item.update_time}}</span>
+                                </div>
+                            </div>
+                            <div class="weui-news-info">
+                                <div class="weui-news-infoitem">
+                                    <span class="weui-news-left">进度：{{(item.progress/item.vids.length*100)|ceil}}%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        $(function () {
+            // 当前用户的历史播放记录
+            // var lists = #(json(obj))
+            var lists = [
+                {
+                    "id": 46279,
+                    "img": "upload/course/img/598.jpg",
+                    "title": "灾难现场心理危机干预的诊断、干预与治疗程序",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 598,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-16 16:24:29",
+                    "update_time": "2019-03-16 16:24:29"
+                },
+                {
+                    "id": 46278,
+                    "img": "upload/course/img/429.jpg",
+                    "title": "灾难心理危机干预系列",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 429,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-16 16:24:24",
+                    "update_time": "2019-03-16 16:24:24"
+                },
+                {
+                    "id": 46275,
+                    "img": "upload/course/img/571.jpg",
+                    "title": "专访台湾快乐列车协会创会长黄俊铭",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 571,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-16 15:11:23",
+                    "update_time": "2019-03-16 15:11:23"
+                },
+                {
+                    "id": 46274,
+                    "img": "upload/course/img/513.jpg",
+                    "title": "2018年首届中国婚姻家庭心理健康高峰论坛",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 513,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-16 15:10:11",
+                    "update_time": "2019-03-16 15:10:11"
+                },
+                {
+                    "id": 46270,
+                    "img": "upload/course/img/682.jpg",
+                    "title": "社会性别视角在心理咨询中的应用",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 682,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-16 13:43:06",
+                    "update_time": "2019-03-16 13:43:06"
+                },
+                {
+                    "id": 46269,
+                    "img": "upload/course/img/684.jpg",
+                    "title": "妇女抑郁症的临床干预",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 684,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-16 13:34:49",
+                    "update_time": "2019-03-16 13:34:49"
+                },
+                {
+                    "id": 46268,
+                    "img": "upload/course/img/683.jpg",
+                    "title": "新形势下妇女健康与发展",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 683,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-16 13:29:11",
+                    "update_time": "2019-03-16 13:29:11"
+                },
+                {
+                    "id": 46252,
+                    "img": "upload/course/img/458.jpg",
+                    "title": "美食心理学系列",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 458,
+                    "vids": [
+                        "65a05d16e5ea46dbbddf4a489f56388c"
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-16 07:24:50",
+                    "update_time": "2019-03-16 07:24:50"
+                },
+                {
+                    "id": 46140,
+                    "img": "upload/course/img/680.jpg",
+                    "title": "荣格分析心理学治疗的原则与方法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 680,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-14 14:10:37",
+                    "update_time": "2019-03-15 10:10:49"
+                },
+                {
+                    "id": 46127,
+                    "img": "upload/course/img/653.jpg",
+                    "title": "精神分析之弗洛伊德的五大理论",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 653,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-14 10:44:15",
+                    "update_time": "2019-03-14 10:44:15"
+                },
+                {
+                    "id": 46087,
+                    "img": "upload/course/img/681.jpg",
+                    "title": "人偶心游系列",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 681,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-13 17:29:39",
+                    "update_time": "2019-03-16 15:37:21"
+                },
+                {
+                    "id": 46078,
+                    "img": "upload/course/img/102.jpg",
+                    "title": "第一辑：短期心理动力学治疗",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 102,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-13 16:26:13",
+                    "update_time": "2019-03-13 16:26:13"
+                },
+                {
+                    "id": 46046,
+                    "img": "upload/course/img/563.jpg",
+                    "title": "建评、魏悦谈抑郁症",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 563,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-13 10:34:07",
+                    "update_time": "2019-03-13 10:34:07"
+                },
+                {
+                    "id": 46041,
+                    "img": "upload/course/img/11.jpg",
+                    "title": "【第二届】【一贯班】精神分析督导视频",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 11,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-13 09:44:24",
+                    "update_time": "2019-03-13 09:44:24"
+                },
+                {
+                    "id": 46040,
+                    "img": "upload/course/img/14.jpg",
+                    "title": "【第一届】【一贯班】精神分析督导视频",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 14,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-13 09:43:58",
+                    "update_time": "2019-03-13 09:43:58"
+                },
+                {
+                    "id": 45999,
+                    "img": "upload/course/img/7.jpg",
+                    "title": "灾后心理危机管理与干预",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 7,
+                    "vids": [
+                        "d1ee86ca052d46a7ad790f497feb1fe6"
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-12 16:27:23",
+                    "update_time": "2019-03-12 16:27:23"
+                },
+                {
+                    "id": 45731,
+                    "img": "upload/course/img/505.jpg",
+                    "title": "表达艺术团体辅导",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 505,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-07 15:20:11",
+                    "update_time": "2019-03-07 15:20:11"
+                },
+                {
+                    "id": 45729,
+                    "img": "upload/ROOT/20190110/c5e060fd-9424-421b-924b-c56805189081.jpg",
+                    "title": "为生命喝彩 为成长加油\u2014\u2014宣传片",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 497,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-07 15:19:42",
+                    "update_time": "2019-03-07 15:19:42"
+                },
+                {
+                    "id": 45728,
+                    "img": "upload/course/img/676.jpg",
+                    "title": "跨時代生命教育種子教師培育",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 676,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-07 15:18:38",
+                    "update_time": "2019-03-07 15:18:38"
+                },
+                {
+                    "id": 45604,
+                    "img": "upload/course/img/607.jpg",
+                    "title": "第四期：如何与不同年龄孩子的父母一起工作",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 607,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-03-05 15:06:03",
+                    "update_time": "2019-03-05 15:06:03"
+                },
+                {
+                    "id": 45177,
+                    "img": "upload/course/img/147.jpg",
+                    "title": "【第三届】【一贯班】基本功督导视频",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 147,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-26 13:50:17",
+                    "update_time": "2019-02-26 13:50:17"
+                },
+                {
+                    "id": 44989,
+                    "img": "upload/ROOT/20190110/f612fc53-b819-478a-890b-7d4823c1bf90.jpg",
+                    "title": "天津8.12爆炸：消防官兵心理援助 ",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 286,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-22 14:26:18",
+                    "update_time": "2019-02-22 14:26:18"
+                },
+                {
+                    "id": 44988,
+                    "img": "upload/ROOT/20190221/ec5476c0-12bb-4178-b864-8fcd5572f82c.jpg",
+                    "title": "肢体语言学派",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 674,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-22 14:24:17",
+                    "update_time": "2019-02-22 14:24:17"
+                },
+                {
+                    "id": 44962,
+                    "img": "upload/course/img/671.jpg",
+                    "title": "【第三届】【一贯班】精神分析督导视频",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 671,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-21 17:28:54",
+                    "update_time": "2019-03-13 09:44:50"
+                },
+                {
+                    "id": 44961,
+                    "img": "upload/course/img/268.jpg",
+                    "title": "我听到了笑声：为家庭寻找解决方法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 268,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-21 16:47:40",
+                    "update_time": "2019-02-21 16:47:40"
+                },
+                {
+                    "id": 44960,
+                    "title": "正念工具课程-蟹岛纪录片",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 337,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-21 16:47:03",
+                    "update_time": "2019-02-21 16:47:03"
+                },
+                {
+                    "id": 44959,
+                    "img": "upload/course/img/669.jpg",
+                    "title": "岳晓东基本功研修班-初级班（第四届）",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 669,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-21 16:45:19",
+                    "update_time": "2019-02-21 16:45:19"
+                },
+                {
+                    "id": 44952,
+                    "img": "upload/ROOT/20190221/ee4fc9d0-ba67-496a-a3d0-deef62b4cb70.jpg",
+                    "title": "中科博爱表达艺术疗法人才培养工程",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 673,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-21 15:25:58",
+                    "update_time": "2019-03-16 15:10:39"
+                },
+                {
+                    "id": 44900,
+                    "img": "upload/course/img/670.jpg",
+                    "title": "第二届张久祥精神分析研修班",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 670,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-21 10:18:03",
+                    "update_time": "2019-02-25 14:58:08"
+                },
+                {
+                    "id": 44838,
+                    "img": "upload/course/img/637.jpg",
+                    "title": "催眠工作坊小片",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 637,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-20 13:32:30",
+                    "update_time": "2019-02-20 13:32:30"
+                },
+                {
+                    "id": 44837,
+                    "img": "upload/course/img/636.jpg",
+                    "title": "古典催眠术和艾瑞克森催眠的不同之美！",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 636,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-20 13:32:27",
+                    "update_time": "2019-02-20 13:32:27"
+                },
+                {
+                    "id": 44836,
+                    "img": "upload/course/img/629.jpg",
+                    "title": "婚姻关系系列节目",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 629,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-20 13:32:22",
+                    "update_time": "2019-02-20 13:32:22"
+                },
+                {
+                    "id": 44835,
+                    "img": "upload/course/img/649.jpg",
+                    "title": "纪录片：2017第三届中国EAP行业峰会",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 649,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-20 13:32:16",
+                    "update_time": "2019-02-20 13:32:16"
+                },
+                {
+                    "id": 44565,
+                    "img": "upload/course/img/71.jpg",
+                    "title": "【约翰·克虏伯】认知行为治疗",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 71,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-15 14:35:27",
+                    "update_time": "2019-02-21 13:28:32"
+                },
+                {
+                    "id": 44506,
+                    "title": "接受与承诺疗法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 666,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-14 10:33:44",
+                    "update_time": "2019-02-14 16:33:31"
+                },
+                {
+                    "id": 44465,
+                    "img": "upload/course/img/575.jpg",
+                    "title": "箱庭疗法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 575,
+                    "vids": [
+                        "f8a03b24785a4bdc9af6a3594c7e9259"
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-02-13 16:16:31",
+                    "update_time": "2019-02-13 16:16:31"
+                },
+                {
+                    "id": 43827,
+                    "img": "upload/course/img/665.jpg",
+                    "title": "心理咨询基本原理",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 665,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-30 17:22:47",
+                    "update_time": "2019-02-21 16:00:11"
+                },
+                {
+                    "id": 43805,
+                    "img": "upload/course/img/227.jpg",
+                    "title": "客体关系家庭治疗",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 227,
+                    "vids": [
+                        "044d44f01be94043a91b0595dbaeb509"
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-30 15:13:39",
+                    "update_time": "2019-01-30 15:13:39"
+                },
+                {
+                    "id": 43801,
+                    "img": "upload/course/img/660.jpg",
+                    "title": "五个原型意象",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 660,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-30 14:49:41",
+                    "update_time": "2019-02-14 17:10:26"
+                },
+                {
+                    "id": 43677,
+                    "title": "【第四届】【一贯班】基本功督导视频",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 663,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-29 11:46:29",
+                    "update_time": "2019-01-29 11:46:29"
+                },
+                {
+                    "id": 43325,
+                    "img": "upload/course/img/645.jpg",
+                    "title": "她离开了我：男性遭受关系丧失的四阶段治疗模式",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 645,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 16:18:31",
+                    "update_time": "2019-01-23 16:18:31"
+                },
+                {
+                    "id": 43323,
+                    "img": "upload/course/img/536.jpg",
+                    "title": "九分割统合绘画法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 537,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 16:17:32",
+                    "update_time": "2019-01-23 16:17:32"
+                },
+                {
+                    "id": 43322,
+                    "img": "upload/ROOT/20190114/d5f321b1-ca9e-439c-b345-9e9eb6a10847.jpg",
+                    "title": "哈维尔·亨德瑞克斯博士之关系的治愈",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 586,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 16:17:24",
+                    "update_time": "2019-01-23 16:17:24"
+                },
+                {
+                    "id": 43321,
+                    "img": "upload/course/img/632.jpg",
+                    "title": "萨尔瓦多·米纽庆之家庭治疗",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 632,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 16:17:02",
+                    "update_time": "2019-01-23 16:17:02"
+                },
+                {
+                    "id": 43320,
+                    "img": "upload/course/img/6.jpg",
+                    "title": "心理健康与评估",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 639,
+                    "vids": [
+                        null,
+                        "99a52cf2ac77455c960bb7c6c97c44ae"
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 16:16:55",
+                    "update_time": "2019-02-21 15:34:00"
+                },
+                {
+                    "id": 43314,
+                    "title": "马丁·赛利格曼：谈谈积极心理学",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 640,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 16:09:22",
+                    "update_time": "2019-01-23 16:09:22"
+                },
+                {
+                    "id": 43313,
+                    "title": "双相障碍的测评与心理学治疗",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 641,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 16:09:15",
+                    "update_time": "2019-01-23 16:09:15"
+                },
+                {
+                    "id": 43273,
+                    "img": "upload/course/img/42.jpg",
+                    "title": "治疗关系、个体治疗以及成功心理治疗的关键因素",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 42,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        "75e688eeede7459889e1ceebf76c621b",
+                        "0844bee3309946458804176a85d9d3e2",
+                        "0700738a5d014d2bb485efb9dd9b8323",
+                        "cc589dd5069f4c5e99272be1ac8da43a"
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 15:09:56",
+                    "update_time": "2019-01-23 15:10:55"
+                },
+                {
+                    "id": 43251,
+                    "img": "upload/course/img/648.jpg",
+                    "title": "第11次全国心理卫生学术大会场外直播",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 648,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-23 14:15:43",
+                    "update_time": "2019-01-23 14:15:43"
+                },
+                {
+                    "id": 42994,
+                    "img": "upload/ROOT/20190114/4657a683-7ebc-40a9-af00-6a3144a0c179.jpg",
+                    "title": "华人大会：\u201cPAC（心理资本增值）模式\u201d在企业的应用与成效",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 588,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-21 17:17:37",
+                    "update_time": "2019-01-21 17:17:37"
+                },
+                {
+                    "id": 42846,
+                    "img": "upload/course/img/25.jpg",
+                    "title": "亚伦·贝克之认知疗法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 25,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-19 10:40:02",
+                    "update_time": "2019-01-19 10:40:02"
+                },
+                {
+                    "id": 42844,
+                    "title": "DSM-5张道龙培训",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 650,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-19 09:40:14",
+                    "update_time": "2019-01-19 09:40:14"
+                },
+                {
+                    "id": 42842,
+                    "img": "upload/course/img/4.jpg",
+                    "title": "TA疗法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 4,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        "12b9b1d7713141e18a0b68526f3fa41f",
+                        "a18fd8fce01143c791b20d6c6f99bed5",
+                        "67ecf739fcb344a8a36c94a858f7db5c",
+                        "c5bc4c041ce94371a9d8a008c77f8d03",
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-19 09:34:29",
+                    "update_time": "2019-01-23 16:18:03"
+                },
+                {
+                    "id": 42841,
+                    "title": "首届心理咨询师胜任力高峰论坛||心理直播间",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 647,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-19 09:30:03",
+                    "update_time": "2019-01-19 09:30:03"
+                },
+                {
+                    "id": 42812,
+                    "img": "upload/ROOT/20190114/7c79f9a2-5b0d-4281-a393-20806a9bf484.jpg",
+                    "title": "电影心理学第二季：爱情篇",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 622,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-18 16:08:11",
+                    "update_time": "2019-01-18 16:08:11"
+                },
+                {
+                    "id": 42811,
+                    "img": "upload/ROOT/20190109/f6c69ff6-3e2f-4678-8614-1c86a4e468c9.jpg",
+                    "title": "助我成长新生儿\u2014\u2014明尼苏达州教育中心公开课",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 423,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-18 16:02:49",
+                    "update_time": "2019-01-18 16:02:49"
+                },
+                {
+                    "id": 42810,
+                    "img": "upload/ROOT/20190115/b71eebf9-e656-4d3c-a331-154562a3222f.jpg",
+                    "title": "如何建立有效的亲子关系？",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 521,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-18 16:02:45",
+                    "update_time": "2019-01-18 16:02:45"
+                },
+                {
+                    "id": 42809,
+                    "img": "upload/ROOT/20190114/94a542dd-5f59-4ce9-b428-57ffba7730dd.jpg",
+                    "title": "婚姻与家庭对孩子的影响",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 617,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-18 16:02:40",
+                    "update_time": "2019-01-18 16:02:40"
+                },
+                {
+                    "id": 42808,
+                    "img": "upload/ROOT/20190114/0d067191-8bf9-4abf-87f8-26cdd6866d2d.jpg",
+                    "title": "\u201c迷途知返\u201d的孩子 ",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 631,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-18 16:02:37",
+                    "update_time": "2019-01-18 16:02:37"
+                },
+                {
+                    "id": 42807,
+                    "title": "艾瑞克森催眠视频",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 651,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-18 16:02:18",
+                    "update_time": "2019-01-18 16:02:18"
+                },
+                {
+                    "id": 42680,
+                    "img": "upload/ROOT/20190114/847f9027-fec0-477c-98bc-a31bdfb4c9de.jpg",
+                    "title": " \u201c二胎时代\u201d来临 你做好准备了吗",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 621,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-17 13:24:45",
+                    "update_time": "2019-01-17 13:24:45"
+                },
+                {
+                    "id": 42548,
+                    "img": "upload/course/img/196.jpg",
+                    "title": "辩证行为疗法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 196,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-16 01:11:42",
+                    "update_time": "2019-01-19 09:30:06"
+                },
+                {
+                    "id": 42460,
+                    "title": "解析高校心理学教育",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 330,
+                    "vids": [
+                        "f02d257ab1644aa4a9667c71eae34b24"
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-14 16:33:38",
+                    "update_time": "2019-01-14 16:33:38"
+                },
+                {
+                    "id": 42451,
+                    "img": "upload/course/img/2.jpg",
+                    "title": "心理咨询师基本功",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 2,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-14 14:19:30",
+                    "update_time": "2019-03-11 17:29:30"
+                },
+                {
+                    "id": 42431,
+                    "img": "upload/ROOT/20190109/4d6557e7-a547-4686-b576-90c94268fd5f.jpg",
+                    "title": "学会做自己的主人",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 434,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-12 17:47:22",
+                    "update_time": "2019-01-12 17:47:22"
+                },
+                {
+                    "id": 42429,
+                    "img": "upload/ROOT/20190109/d9dc888a-5dd9-4c04-881f-a4c14c06562c.jpg",
+                    "title": "焦点解决教练三人谈",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 435,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-12 17:09:48",
+                    "update_time": "2019-03-16 15:50:31"
+                },
+                {
+                    "id": 42428,
+                    "img": "upload/ROOT/20190109/bca3b962-2f52-4ef2-a1c1-f6d16164f96b.jpg",
+                    "title": "四个方法教你快速提升自尊",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 438,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-12 17:03:50",
+                    "update_time": "2019-01-12 17:03:50"
+                },
+                {
+                    "id": 42427,
+                    "img": "upload/ROOT/20190110/aaf785af-2550-449f-a819-73520601bcf4.jpg",
+                    "title": "奔跑吧咨询师",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 496,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-12 17:00:16",
+                    "update_time": "2019-01-12 17:00:16"
+                },
+                {
+                    "id": 42422,
+                    "img": "upload/ROOT/20190111/16b29507-924d-40ab-8906-fa709056b174.jpg",
+                    "title": "三国与职场",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 541,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-12 16:00:14",
+                    "update_time": "2019-01-12 16:00:14"
+                },
+                {
+                    "id": 42393,
+                    "img": "upload/ROOT/20190110/56f5cd96-6fcb-46cd-af12-1c32d6a95204.jpg",
+                    "title": "《梦与生活的关系》全集",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 525,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-11 09:53:12",
+                    "update_time": "2019-01-11 09:53:12"
+                },
+                {
+                    "id": 42377,
+                    "img": "upload/ROOT/20190110/e658edcd-81c0-4ac7-9293-7de2760acb8c.jpg",
+                    "title": "人类天生的交流本能",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 523,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 15:56:28",
+                    "update_time": "2019-01-10 15:56:28"
+                },
+                {
+                    "id": 42374,
+                    "img": "upload/ROOT/20190109/3be0c725-ad48-4b0b-9d90-a01d38d33022.jpg",
+                    "title": "好家长必修课堂系列课程",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 472,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 15:19:23",
+                    "update_time": "2019-03-07 14:43:23"
+                },
+                {
+                    "id": 42373,
+                    "title": "留学心理程",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 368,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 15:19:05",
+                    "update_time": "2019-01-10 15:19:05"
+                },
+                {
+                    "id": 42372,
+                    "title": "情景剧：米纽庆家庭治疗",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 325,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 15:18:43",
+                    "update_time": "2019-01-10 15:18:43"
+                },
+                {
+                    "id": 42370,
+                    "img": "upload/ROOT/20190109/510704fd-ae16-4f20-8f36-e6058dfa2cf9.jpg",
+                    "title": "夫妻之间如何有效沟通",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 432,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 15:18:23",
+                    "update_time": "2019-01-10 15:18:23"
+                },
+                {
+                    "id": 42369,
+                    "img": "upload/ROOT/20190110/b65a81fb-afa7-4115-a6b8-ff9d3a73f276.jpg",
+                    "title": "4D系统查理博士到访北京",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 515,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 15:08:35",
+                    "update_time": "2019-01-10 15:08:35"
+                },
+                {
+                    "id": 42366,
+                    "img": "upload/ROOT/20190110/aa9b6e90-0c89-4637-ba98-d31b546ac81e.jpg",
+                    "title": "杨凤池：精神分析培训",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 512,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 14:36:50",
+                    "update_time": "2019-01-10 14:36:50"
+                },
+                {
+                    "id": 42365,
+                    "img": "upload/ROOT/20190110/c89a7c18-adca-4df6-847c-4d0c208b487a.jpg",
+                    "title": "心理社工进社区公益行全国巡演",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 511,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 14:35:03",
+                    "update_time": "2019-01-10 14:35:03"
+                },
+                {
+                    "id": 42362,
+                    "img": "upload/ROOT/20190109/b72b7b2e-fd16-4074-89dc-199ecb0b97b4.jpg",
+                    "title": "网瘾在生活中的危害",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 410,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-10 12:09:46",
+                    "update_time": "2019-01-10 12:09:46"
+                },
+                {
+                    "id": 42344,
+                    "img": "upload/course/img/1.jpg",
+                    "title": "心理学与社会工作",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 1,
+                    "vids": [
+                        null,
+                        "b29573aad8314d4a95d89064cb501457",
+                        {
+                            "className": "Undefined"
+                        },
+                        "d627f067aba446d38166d4e2d6628358",
+                        "56e9649e9dc44100af0e8ab583c1044a",
+                        "5c56bdec9ebd43e988dc15cfd9c43565",
+                        "cdfe1d5b5ac844a4bce334eb3fcc345a",
+                        "4992f3edac964ed495b8ab23afc3eff9",
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        "4bc540bbbd93452f966ba14ac5b38473",
+                        "a18d91c6623546edb4c099b31bb7e75b",
+                        "b61dfb849abe41d6a82fd64ddad1bac2",
+                        "ab4ebc36b2a24167904e8ab21581dd1b",
+                        "a22e731c808244cea547c98ed88acdec",
+                        "1c22033e6e8f435fae452a168f9e4023",
+                        "e8a8be3c67cc4f30a096631ad8ba6d76",
+                        "b47070a2715642c08321aebe9b78801d",
+                        "874a6c4ad7c54da9b4d2188ac1a92b93",
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-09 21:45:58",
+                    "update_time": "2019-03-14 10:29:37"
+                },
+                {
+                    "id": 42319,
+                    "img": "upload/course/img/267.jpg",
+                    "title": "我听到了笑声：为家庭寻找解决方法",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 267,
+                    "vids": [
+                        null,
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        "dde47e7205314bc29b28923b645d90cc",
+                        "ff21733a29e64848bf0dede960480ac9",
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        "413dbe90feff4d308b87dd2dc2b243db",
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        },
+                        {
+                            "className": "Undefined"
+                        }
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-09 13:22:21",
+                    "update_time": "2019-02-21 16:47:25"
+                },
+                {
+                    "id": 42318,
+                    "img": "upload/ROOT/20190109/735ea9fe-4785-43f4-80d8-e09dd6dc010d.jpg",
+                    "title": "心理学与生活的关系",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 404,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-09 12:59:58",
+                    "update_time": "2019-01-09 12:59:58"
+                },
+                {
+                    "id": 42317,
+                    "img": "upload/ROOT/20190109/a2aa5c2c-6aee-4813-9d1f-db1db01138df.jpg",
+                    "title": "释放压力的秘诀",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 405,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-09 12:59:56",
+                    "update_time": "2019-01-09 12:59:56"
+                },
+                {
+                    "id": 42316,
+                    "img": "upload/ROOT/20190109/2f56b282-0fa2-4eb7-b7c7-8c7bdee0f9f7.jpg",
+                    "title": "抑郁狗，强迫症猫",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 406,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-09 12:59:54",
+                    "update_time": "2019-01-09 12:59:54"
+                },
+                {
+                    "id": 42315,
+                    "img": "upload/ROOT/20190109/fed772b0-abdf-4535-a0de-314051a823b4.jpg",
+                    "title": "邪恶的心理",
+                    "user_id": 8964,
+                    "tbl_name": "course",
+                    "tbl_id": 407,
+                    "vids": [
+                        null
+                    ],
+                    "progress": 1,
+                    "add_time": "2019-01-09 11:38:48",
+                    "update_time": "2019-01-09 11:38:48"
+                }
+            ]
+            console.log(lists)
+            new Vue({
+                el: "#app",
+                data: {
+                    info: lists
+                },
+                filters: {
+                    ceil: function (value) {
+                        return parseInt(value)
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

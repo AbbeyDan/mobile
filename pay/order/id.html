@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单支付</title>
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+    <style>
+          header {
+            border-bottom: 1px solid #eee;
+        }
+
+        header div {
+            flex: 1;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="app">
+        <!-- 顶部 -->
+        <header class="weui-cell weui-cell_access">
+                <a href="javascript:history.back(-1)">
+                    <i class="icon icon-109"></i>
+                </a>
+                <div>订单支付</div>
+            </header>
+        <div class="weui-pay">
+            <h1 class="weui-payselect-title">金额</h1>
+            <p class="weui-pay-num">￥{{info.price}}</p>
+            <ul class="weui-pay-u">
+                <li>
+                    <span class="title">订单编号</span>
+                    <span class="content">{{info.orderno}}</span>
+                </li>
+                <li>
+                    <span class="title">课程名称</span>
+                    <span class="content">{{info.title}}</span>
+                </li>
+            </ul>
+            <div class="pay-div">
+                <a href="" class="weui-btn weui-btn_primary" id="pay">立即支付</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        $(function(){
+            // 当前订单信息
+            var data = { "id": 83, "orderno": "1901092143232718", "title": "心理学与社会工作", "img": "upload/course/img/1.jpg", "price": 200, "total_price": 200, "status": 1, "user_id": 8964, "add_time": "2019-01-09 21:43:23", "update_time": "2019-01-19 09:30:54", "paytype": "", "text": "课程: 《心理学与社会工作》 讲师:", "uid": 0, "tbl_id": "1", "tbl_name": "course", "end_time": "2019-04-09 21:43:23", "agency_id": 1, "agency_name": "心教育" };
+            new Vue({
+                el:"#app",
+                data:{
+                    info:data
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>全部课程</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weui.css" />
+    <link rel="stylesheet" href="#(root)assets/weui5/css/weuix.css" />
+    <script src="#(root)assets/weui5/js/zepto.min.js"></script>
+    <script src="#(root)assets/weui5/js/zepto.weui.js"></script>
+    <script src="#(root)assets/weui5/js/swipe.js"></script>
+    <style>
+        li {
+            list-style: none;
+        }
+
+        a {
+            color: #999;
+        }
+
+        header {
+            border-bottom: 1px solid #eee;
+        }
+
+        header.weui-cell a,
+        header.weui-cell div {
+            flex: 1;
+        }
+
+        header.weui-cell a:last-child {
+            text-align: right;
+        }
+
+        header.weui-cell div {
+            text-align: center;
+        }
+
+        /* 筛选 */
+
+        .sort {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .sort-type {
+            text-align: center;
+        }
+
+        .sort-type>a {
+            color: #666;
+        }
+
+        .sort-type.show>a {
+            color: green;
+        }
+
+        .sort-items {
+            position: absolute;
+            width: 100%;
+            z-index: 200;
+            left: 0;
+            text-align: left;
+            display: none;
+        }
+
+        .sort-items.show {
+            display: block;
+            background-color: #fff;
+        }
+        .sort-items ul{
+            margin-left:.5rem;
+        }
+        .sort-items li{
+            line-height: 2rem;
+        }
+        .aside-cList {
+            width: 30%;
+        }
+        .aside-cList .list {
+            line-height: 1.8rem;
+            background-color: rgb(221, 221, 221);
+            border-bottom: 1px solid #ccc;
+            padding-left: .2rem;
+        }
+        .list.bg{
+            background-color: #fff;
+        }
+        .aside-cList .list-show {
+            position: absolute;
+            left: 30%;
+            /* padding-left: .5rem; */
+            top: 0;
+            background-color: #fff;
+        }
+        .aside-cList .list-show.none{
+            display:none;
+        }
+        .list-show li{
+            float:left;
+            margin-left:.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部 -->
+    <header class="weui-cell weui-cell_access">
+        <a class="weui-cell__bd" href="#(root)">
+            <i class="icon icon-109"></i>
+        </a>
+        <div>全部课程</div>
+        <a href="#(root)search/">
+            <i class="weui-icon-search"></i>
+        </a>
+    </header>
+    <!-- 条件筛选 -->
+    <div class="sort">
+        <div class="sort-type">
+            <a>
+                <span>全部类别</span>
+                <i class="icon icon-74"></i>
+            </a>
+            <div class="sort-items">
+                <div class="bd">
+                    <div class="aside-cList">
+                        <!-- #for(d:cache.get("dicts")) -->
+                        <div class="list #(d.name=='咨询领域'?'bg':'')">
+                            
+                                <a cgid="2" href="javascript:void(0);" class="type">#(d.name)</a>
+                                <div class="list-show #(d.name=='咨询领域'?'':'none')" >
+                                    <ul class="clearfix">
+                                        <!-- #for(v:d.data_val) -->
+                                            <li class="cf">
+                                                <a href="#">#(v)</a>
+                                            </li>
+                                            <!-- #end -->
+                                        </ul>
+                                </div>
+                            
+                        </div>
+                        <!-- #end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sort-type">
+            <a>
+                <span>最新</span>
+                <i class="icon icon-74"></i>
+            </a>
+            <div class="sort-items">
+                <ul>
+                    <li>
+                        <a href="#">最新</a>
+                    </li>
+                    <li>
+                        <a href="#">最热</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="sort-type">
+            <a>
+                <span>类型</span>
+                <i class="icon icon-74"></i>
+            </a>
+            <div class="sort-items">
+                <ul>
+                    <li>
+                        <a href="#">竞品</a>
+                    </li>
+                    <li>
+                        <a href="#">免费</a>
+                    </li>
+                    <li>
+                        <a href="#">全部</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="sort-type">
+            <a>
+                <span>等级</span>
+                <i class="icon icon-74"></i>
+            </a>
+            <div class="sort-items">
+                <ul>
+                    <li>
+                        <a href="#">初</a>
+                    </li>
+                    <li>
+                        <a href="#">中</a>
+                    </li>
+                    <li>
+                        <a href="#">高</a>
+                    </li>
+                    <li>
+                        <a href="#">全部</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- 课程列表 -->
+    <div class="weui-news">
+        <ul class="weui-news-list">
+            <!-- #for(c:courses) -->
+            <li class="weui-news-item" onclick="location.href='#(root)course/#(c.id)'">
+                <div class="weui-news-inner">
+                    <div class="weui-news-media">
+                        <img src="../images/3.jpg">
+                        <span class="weui-mark-lb">共#(c.section)节</span>
+                        <span class="weui-mark-rt #(c.price>0?'bg-orange':'bg-blue')">#(c.price>0?'精品':'免费')</span>
+                    </div>
+                    <div class="weui-news-inners">
+                        <div class="weui-news-text">
+                            <div class="weui-news-title">#(c.title)</div>
+                        </div>
+                        <div class="weui-news-info">
+                            <div class="weui-news-infoitem">
+                                <img src="../images/user.png" class="weui-news-round">
+                                <span class="weui-news-left">#(c.tname) </span>
+                            </div>
+                            <div class="weui-news-infoitem">#(c.price>0?'￥'+c.price:'免费')</div>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <!-- #end -->
+        </ul>
+    </div>
+    <!-- 底部tab -->
+    <div style="margin-bottom: 25px;">&nbsp;</div>
+    <div class="weui-tab tab-bottom " style="height:55px;">
+        <div class="weui-tabbar">
+            <a onclick="location.href='#(root)'" class="weui-tabbar__item">
+                <span style="display: inline-block;position: relative;">
+                    <i class="icon icon-27 f27 weui-tabbar__icon"></i>
+                    <!-- <span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span> -->
+                </span>
+                <p class="weui-tabbar__label">首页</p>
+            </a>
+            <a onclick="location.href='#(root)course/'" class="weui-tabbar__item weui-bar__item_on">
+                <i class="icon icon-28 f27 weui-tabbar__icon"></i>
+                <p class="weui-tabbar__label">课程</p>
+            </a>
+            <a onclick="location.href='#(root)zb/'" class="weui-tabbar__item">
+                <span style="display: inline-block;position: relative;">
+                    <i class="icon icon-29 f27 weui-tabbar__icon"></i>
+                    <!-- <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span> -->
+                </span>
+                <p class="weui-tabbar__label">直播间</p>
+            </a>
+            <a onclick="location.href='#(root)user/'" class="weui-tabbar__item ">
+                <i class="icon icon-30 f27 weui-tabbar__icon"></i>
+                <p class="weui-tabbar__label">我</p>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            // 筛选条件
+            $(".sort .sort-type").click(function () {
+                $(this).find(".sort-items").toggleClass("show");
+                $(this).toggleClass("show");
+                $(this).siblings().find(".sort-items").removeClass("show");
+                $(this).siblings().removeClass("show");
+            })
+            // 选中替换文本
+            $(".sort-items li a").click(function () {
+                var html = $(this).html();
+                var link = $(this).attr("href");
+                console.log(link)
+                $(this).parents(".sort-items").siblings("a").find("span").html(html);
+            })
+            // 点击全部课程分类
+            $(".list").click(function(){
+                $(".list").removeClass("bg");
+                $(this).addClass("bg");
+                $(".list-show").addClass("none");
+                $(this).find(".list-show").removeClass("none");
+                return false;
+            })
+            $(".list li").click(function(){
+                $(".sort-items").removeClass("show");
+            })
+        })
+    </script>
+</body>
+
+</html>
